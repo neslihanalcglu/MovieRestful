@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using MovieRestful.Core.Dtos;
+using MovieRestful.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace MovieRestful.Service.Mapping
     {
         public MapProfile()
         {
-            
+            CreateMap<Movie, MovieDto>().ReverseMap();
         }
     }
 }

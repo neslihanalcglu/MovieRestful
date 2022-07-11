@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieRestful.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,10 @@ namespace MovieRestful.Repository
         {
 
         }
+
+        public DbSet<Movie> deneme { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+           => optionsBuilder.UseNpgsql("Host=localhost;Database=RestfulAPI;Username=postgres;Password=3736");
     }
 }
