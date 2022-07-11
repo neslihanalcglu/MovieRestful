@@ -34,5 +34,7 @@ namespace MovieRestful.Core.Models
         public string? video { get; set; }
         public int? vote_count { get; set; }
 
+        public Trending Trending { get; set; }
+
     }
 }

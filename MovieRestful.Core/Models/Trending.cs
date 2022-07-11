@@ -9,6 +9,9 @@ namespace MovieRestful.Core.Models
     public class Trending
     {
         public long id { get; set; }
-        public int MyProperty { get; set; }
+        public int ViewedMovieCount { get; set; }
+        public Movie Movie { get; set; }
+
+        public long MovieId { get; set; }
     }
 }
