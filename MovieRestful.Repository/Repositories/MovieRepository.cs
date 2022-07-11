@@ -13,5 +13,7 @@ namespace MovieRestful.Repository.Repositories
         public MovieRepository(DatabaseContext context) : base(context)
         {
         }
+
+        
     }
 }

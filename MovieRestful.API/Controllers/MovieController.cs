@@ -56,10 +56,19 @@ namespace MovieRestful.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
-            var movie = await _service.GetByIdAsync(id);
+            var movie = await _movieService.GetByIdAsync(id);
             await _movieService.RemoveAsync(movie);
 
             return Ok(CustomResponseDto<NoContentDto>.Success(204));
         }
+
+        [HttpGet("get-movie-list-for-genre")]
+        public async Task<ActionResult> GetMovieListForGenre(string input)
+        {
+            var movies=await _movieService.GetMovieListForGenre(input);
+            var movieDtos = _mapper.Map<List<MovieDto>>(movies);
+            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+        }
+
     }
 }

@@ -9,5 +9,8 @@ namespace MovieRestful.Core.Services
 {
     public interface IMovieService:IService<Movie>
     {
+        Task<List<Movie>> GetMovieListForGenre(string input);
     }
+
+    
 }

@@ -16,5 +16,19 @@ namespace MovieRestful.Service.Services
         public MovieService(IGenericRepository<Movie> repository, DatabaseContext context, IUnitOfWork unitOfWork) : base(repository, context, unitOfWork)
         {
         }
+
+        public async Task<List<Movie>> GetMovieListForGenre(string input)
+        {
+            var movies = await GetAllAsync();
+            var movieList = new List<Movie>();
+            foreach(var movie in movies)
+            {
+                var isValue=movie.genres.ToLower().Contains(input.ToLower());
+                if(isValue)
+                    movieList.Add(movie);
+
+            }
+            return movieList;
+        }
     }
 }
