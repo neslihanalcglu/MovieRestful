@@ -15,9 +15,9 @@ namespace MovieRestful.Repository
 
         }
 
-        public DbSet<Movie> deneme { get; set; }
+        public DbSet<Movie> mytable { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-           => optionsBuilder.UseNpgsql("Host=localhost;Database=RestfulAPI;Username=postgres;Password=3736");
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //   => optionsBuilder.UseNpgsql("Host=localhost;Database=RestfulAPI;Username=postgres;Password=3736");
     }
 }

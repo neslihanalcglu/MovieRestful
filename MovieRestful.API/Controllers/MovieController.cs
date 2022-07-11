@@ -7,7 +7,6 @@ using MovieRestful.Core.Services;
 
 namespace MovieRestful.API.Controllers
 {
-
     public class MovieController : CustomBaseController
     {
         private readonly IMapper _mapper;
@@ -30,12 +29,12 @@ namespace MovieRestful.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult> GetAsync(long id)
         {
             var movie = await _service.GetByIdAsync(id);
 
-            var movieDto = _mapper.Map<List<MovieDto>>(movie);
-            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDto));
+            var movieDto = _mapper.Map<MovieDto>(movie);
+            return Ok(CustomResponseDto<MovieDto>.Success(200, movieDto));
         }
 
         [HttpPost]
@@ -54,7 +53,7 @@ namespace MovieRestful.API.Controllers
             return Ok(CustomResponseDto<NoContentDto>.Success(204));
         }
 
-        [HttpGet("{id}")]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var movie = await _service.GetByIdAsync(id);
