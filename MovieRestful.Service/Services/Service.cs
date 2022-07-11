@@ -16,12 +16,11 @@ namespace MovieRestful.Service.Services
     public class Service<T> : IService<T> where T : class
     {
         private readonly IGenericRepository<T> _repository;
-        private readonly DatabaseContext _context;
-        // private readonly IUnitOfWork _unitOfWork;
-        public Service(IGenericRepository<T> repository, DatabaseContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        public Service(IGenericRepository<T> repository, DatabaseContext context, IUnitOfWork unitOfWork)
         {
             _repository = repository;
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -29,16 +28,14 @@ namespace MovieRestful.Service.Services
         public async Task<T> AddAsync(T entity)
         {
             await _repository.AddAsync(entity);
-            //await _unitOfWork.CommitAsync();
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CommitAsync();
             return entity;
         }
 
         public async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities)
         {
             await _repository.AddRangeAsync(entities);
-            //await _unitOfWork.CommitAsync();
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CommitAsync();
             return entities;
         }
 
@@ -66,22 +63,19 @@ namespace MovieRestful.Service.Services
         public async Task RemoveAsync(T entity)
         {
             _repository.Remove(entity);
-            //await _unitOfWork.CommitAsync();
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CommitAsync();
         }
 
         public async Task RemoveRangeAsync(IEnumerable<T> entities)
         {
             _repository.RemoveRange(entities);
-            // await _unitOfWork.CommitAsync();
-            await _context.SaveChangesAsync();
+             await _unitOfWork.CommitAsync();
         }
 
         public async Task UpdateAsync(T entity)
         {
             _repository.Update(entity);
-            //await _unitOfWork.CommitAsync();
-            await _context.SaveChangesAsync();
+            await _unitOfWork.CommitAsync();
         }
 
         public IQueryable<T> Where(Expression<Func<T, bool>> expression)

@@ -10,18 +10,18 @@ namespace MovieRestful.API.Controllers
     public class MovieController : CustomBaseController
     {
         private readonly IMapper _mapper;
-        private readonly IService<Movie> _service;
+        private readonly IMovieService _movieService;
 
-        public MovieController(IMapper mapper, IService<Movie> service)
+        public MovieController(IMapper mapper, IMovieService movieService)
         {
             _mapper = mapper;
-            _service = service;
+            _movieService = movieService;
         }
 
         [HttpGet]
         public async Task<ActionResult> GetListAsync()
         {
-            var movies = await _service.GetAllAsync();
+            var movies = await _movieService.GetAllAsync();
 
             var movieDtos = _mapper.Map<List<MovieDto>>(movies.ToList());//Liste IEnumerable döndüğü için listeye çevrildi
             return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
@@ -31,7 +31,7 @@ namespace MovieRestful.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult> GetAsync(long id)
         {
-            var movie = await _service.GetByIdAsync(id);
+            var movie = await _movieService.GetByIdAsync(id);
 
             var movieDto = _mapper.Map<MovieDto>(movie);
             return Ok(CustomResponseDto<MovieDto>.Success(200, movieDto));
@@ -40,7 +40,7 @@ namespace MovieRestful.API.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync(MovieDto input)
         {
-            var movie = await _service.AddAsync(_mapper.Map<Movie>(input));
+            var movie = await _movieService.AddAsync(_mapper.Map<Movie>(input));
 
             var movieDto = _mapper.Map<MovieDto>(movie);
             return Ok(CustomResponseDto<MovieDto>.Success(201, movieDto));// 201-Created
@@ -49,7 +49,7 @@ namespace MovieRestful.API.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateAsync(MovieDto input)
         {
-            await _service.UpdateAsync(_mapper.Map<Movie>(input));
+            await _movieService.UpdateAsync(_mapper.Map<Movie>(input));
             return Ok(CustomResponseDto<NoContentDto>.Success(204));
         }
 
@@ -57,7 +57,7 @@ namespace MovieRestful.API.Controllers
         public async Task<ActionResult> DeleteAsync(int id)
         {
             var movie = await _service.GetByIdAsync(id);
-            await _service.RemoveAsync(movie);
+            await _movieService.RemoveAsync(movie);
 
             return Ok(CustomResponseDto<NoContentDto>.Success(204));
         }
