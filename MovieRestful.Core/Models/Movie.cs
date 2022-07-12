@@ -33,7 +33,7 @@ namespace MovieRestful.Core.Models
         public string? title { get; set; }
         public string? video { get; set; }
         public int? vote_count { get; set; }
-
+        public int ViewedMovieCount { get; set; }
         public Trending Trending { get; set; }
 
     }

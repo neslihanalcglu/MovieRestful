@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
+using IEnumerable.ForEach;
 using MovieRestful.Core.Models;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
@@ -18,6 +19,14 @@ namespace MovieRestful.Service.Services
         public MovieService(IGenericRepository<Movie> repository, DatabaseContext context, IUnitOfWork unitOfWork, IMovieRepository movieRepository) : base(repository, context, unitOfWork)
         {
             _movieRepository = movieRepository;
+        }
+
+        public async Task<Movie> GetMovieAsync(long id)
+        {
+            var movie = await GetByIdAsync(id);
+            movie.ViewedMovieCount++;
+            await UpdateAsync(movie);
+            return movie;
         }
 
         public async Task<List<Movie>> GetMovieListForGenreAsync(string input)
@@ -99,6 +108,15 @@ namespace MovieRestful.Service.Services
             else
                 movies = (await GetAllAsync()).ToList();
             return movies;
+        }
+
+        public async Task<List<string>> ListGenres()
+        {
+            var movies =await GetAllAsync();
+            var genres = new List<string>();
+            
+            movies.ForEach(x => { genres.Add(x.genres); });
+            return genres;
         }
     }
 }

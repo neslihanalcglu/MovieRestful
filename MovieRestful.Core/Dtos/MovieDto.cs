@@ -33,5 +33,6 @@ namespace MovieRestful.Core.Dtos
         public string? title { get; set; }
         public string? video { get; set; }
         public int? vote_count { get; set; }
+        public int ViewedMovieCount { get; set; }
     }
 }

@@ -29,9 +29,9 @@ namespace MovieRestful.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetAsync(long id)
+        public async Task<ActionResult> GetMovieDetail(long id)
         {
-            var movie = await _movieService.GetByIdAsync(id);
+            var movie = await _movieService.GetMovieAsync(id);
 
             var movieDto = _mapper.Map<MovieDto>(movie);
             return Ok(CustomResponseDto<MovieDto>.Success(200, movieDto));
@@ -92,6 +92,13 @@ namespace MovieRestful.API.Controllers
             var movies = await _movieService.Search(title,rate,year);
             var movieDtos = _mapper.Map<List<MovieDto>>(movies);
             return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+        }
+
+        [HttpGet("list-genres")]
+        public async Task<ActionResult> ListGenres()
+        {
+            var genres = await _movieService.ListGenres();
+            return Ok(CustomResponseDto<List<string>>.Success(200, genres));
         }
     }
 }
