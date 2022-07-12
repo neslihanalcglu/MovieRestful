@@ -13,7 +13,11 @@ namespace MovieRestful.Repository.Repositories
         public MovieRepository(DatabaseContext context) : base(context)
         {
         }
+        //public async Task<List<Movie>> GetMovieListForGenre(string input)
+        //{
+        //    var movies = Where(x => x.genres.ToLower().Contains(input.ToLower())).ToList();
+        //    return movies;
+        //}
 
-        
     }
 }

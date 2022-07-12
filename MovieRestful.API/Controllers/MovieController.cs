@@ -65,10 +65,33 @@ namespace MovieRestful.API.Controllers
         [HttpGet("get-movie-list-for-genre")]
         public async Task<ActionResult> GetMovieListForGenre(string input)
         {
-            var movies=await _movieService.GetMovieListForGenre(input);
+            var movies=await _movieService.GetMovieListForGenreAsync(input);
             var movieDtos = _mapper.Map<List<MovieDto>>(movies);
             return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
         }
 
+        [HttpGet("get-movie-list-for-rate")]
+        public async Task<ActionResult> GetMovieListForRate(int input)
+        {
+            var movies = await _movieService.GetMovieListForRate(input);
+            var movieDtos = _mapper.Map<List<MovieDto>>(movies);
+            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+        }
+
+        [HttpGet("get-movie-list-for-release-date")]
+        public async Task<ActionResult> GetMovieListForReleaseDate(string input)
+        {
+            var movies = await _movieService.GetMovieListForReleaseDate(input);
+            var movieDtos = _mapper.Map<List<MovieDto>>(movies);
+            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult> Search(string? title, int? rate, string? year)
+        {
+            var movies = await _movieService.Search(title,rate,year);
+            var movieDtos = _mapper.Map<List<MovieDto>>(movies);
+            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+        }
     }
 }
