@@ -10,11 +10,13 @@ namespace MovieRestful.Core.Services
     public interface IMovieService:IService<Movie>
     {
         Task<Movie> GetMovieAsync(long id);
-        Task<List<Movie>> GetMovieListForGenreAsync(string input);
-        Task<List<Movie>> GetMovieListForRate(int input);
-        Task<List<Movie>> GetMovieListForReleaseDate(string input);
+        Task<List<Movie>> GetMovieListForGenreAsync(string input, int maxResultCount);
+        Task<List<Movie>> GetMovieListForRate(int input, int maxResultCount);
+        Task<List<Movie>> GetMovieListForReleaseDate(string input, int maxResultCount);
         Task<List<Movie>> Search(string? title, int? rate, string? year);
         Task<List<string>> ListGenres();
+
+        Task<Movie> UpdateGenre(long id, string genreId, string genreName);
     }
 
     

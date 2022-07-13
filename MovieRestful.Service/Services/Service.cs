@@ -49,6 +49,19 @@ namespace MovieRestful.Service.Services
             return await _repository.GetAll().ToListAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAllResultAsync(int maxResultCount=0)
+        {
+            var results=await _repository.GetAll().ToListAsync();
+            var newResults = new List<T>();
+            if (maxResultCount != 0)
+            {
+                for(var i=0;i<maxResultCount; i++)
+                    newResults.Add(results[i]);
+                return newResults;
+            }
+            return results;
+        }
+
         public async Task<T> GetByIdAsync(long id)
         {
             var hasProduct = await _repository.GetByIdAsync(id);

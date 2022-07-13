@@ -6,6 +6,7 @@ using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
 using MovieRestful.Repository;
+using MovieRestful.Service.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,11 @@ namespace MovieRestful.Service.Services
     public class MovieService : Service<Movie>, IMovieService
     {
         private readonly IMovieRepository _movieRepository;
-        public MovieService(IGenericRepository<Movie> repository, DatabaseContext context, IUnitOfWork unitOfWork, IMovieRepository movieRepository) : base(repository, context, unitOfWork)
+        private readonly IRedisHelper _redisHelper;
+        public MovieService(IGenericRepository<Movie> repository, DatabaseContext context, IUnitOfWork unitOfWork, IMovieRepository movieRepository, IRedisHelper redisHelper) : base(repository, context, unitOfWork)
         {
             _movieRepository = movieRepository;
+            _redisHelper = redisHelper;
         }
 
         public async Task<Movie> GetMovieAsync(long id)
@@ -31,23 +34,43 @@ namespace MovieRestful.Service.Services
             return movie;
         }
 
-        public async Task<List<Movie>> GetMovieListForGenreAsync(string input)
+        public async Task<List<Movie>> GetMovieListForGenreAsync(string input,int maxResultCount)
         {
             var movies = Where(x => x.genres.ToLower().Contains(input.ToLower())).ToList();
+            var newMovies=new List<Movie>();
+            if (maxResultCount != 0)
+            {
+                for (var i = 0; i < maxResultCount; i++)
+                    newMovies.Add(movies[i]);
+                return newMovies;
+            }
             return movies;
             //return await _movieRepository.GetMovieListForGenre(input);
         }
 
-        public async Task<List<Movie>> GetMovieListForRate(int input)
+        public async Task<List<Movie>> GetMovieListForRate(int input, int maxResultCount)
         {
             var movies = Where(x => x.vote_count.Equals(input)).ToList();
-
+            var newMovies = new List<Movie>();
+            if (maxResultCount != 0)
+            {
+                for (var i = 0; i < maxResultCount; i++)
+                    newMovies.Add(movies[i]);
+                return newMovies;
+            }
             return movies;
         }
 
-        public async Task<List<Movie>> GetMovieListForReleaseDate(string input)
+        public async Task<List<Movie>> GetMovieListForReleaseDate(string input, int maxResultCount)
         {
             var movies = Where(x => x.release_date.ToString().StartsWith(input)).ToList();
+            var newMovies = new List<Movie>();
+            if (maxResultCount != 0)
+            {
+                for (var i = 0; i < maxResultCount; i++)
+                    newMovies.Add(movies[i]);
+                return newMovies;
+            }
             return movies;
         }
 
@@ -121,5 +144,15 @@ namespace MovieRestful.Service.Services
             movies.ForEach(x => { genres.Add(x.genres); });
             return genres;
         }
+
+        public async Task<Movie> UpdateGenre(long id, string genreId,string genreName)
+        {
+            var movies = await GetByIdAsync(id);
+            var newGenres="[{'id':"+ genreId + ",'name':"+ genreName +"}]";
+            movies.genres = newGenres;
+            await UpdateAsync(movies);
+            return movies;
+        }
+
     }
 }

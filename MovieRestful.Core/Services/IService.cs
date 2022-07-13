@@ -11,6 +11,7 @@ namespace MovieRestful.Core.Services
     {
         Task<T> GetByIdAsync(long id);
         Task<IEnumerable<T>> GetAllAsync();
+        Task<IEnumerable<T>> GetAllResultAsync(int maxResultCount = 0);
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
         Task<T> AddAsync(T entity);

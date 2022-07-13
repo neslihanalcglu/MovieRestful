@@ -12,6 +12,7 @@ using MovieRestful.Repository;
 using MovieRestful.Repository.Repositories;
 using MovieRestful.Repository.UnitOfWorks;
 using MovieRestful.Service.Mapping;
+using MovieRestful.Service.Redis;
 using MovieRestful.Service.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
@@ -27,16 +28,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// UnitOfWork Implement
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Repositories Implement
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IMovieRepository), typeof(MovieRepository));
 
+// Services Implement
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped(typeof(IMovieService), typeof(MovieService));
 
+// AutoMapper Implement
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
+// Database Implement
 builder.Services.AddDbContext<DatabaseContext>(x =>
 {
     x.UseNpgsql(builder.Configuration.GetConnectionString("Connection"), option =>
@@ -47,10 +53,14 @@ builder.Services.AddDbContext<DatabaseContext>(x =>
 
 });
 
+
+// Redis Implement
+builder.Services.AddSingleton<IRedisHelper, RedisHelper>();
+
 builder.Services.AddHangfire(config =>
                 config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
 
-Hangfire.RecurringJob.AddOrUpdate(() => Console.WriteLine("Recurring jobs tetiklendi!"), Hangfire.Cron.MinuteInterval(1));
+//Hangfire.RecurringJob.AddOrUpdate(() => Console.WriteLine("Recurring jobs tetiklendi!"), Hangfire.Cron.MinuteInterval(1));
 
 
 //swagger yapýlandýrmasý
@@ -126,8 +136,9 @@ builder.Services.AddAuthentication(o =>
             (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
         ValidateIssuer = true,
         ValidateAudience = true,
-        ValidateLifetime = false,
-        ValidateIssuerSigningKey = true
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero
     };
 });
 
