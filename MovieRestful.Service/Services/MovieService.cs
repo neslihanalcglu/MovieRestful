@@ -41,6 +41,7 @@ namespace MovieRestful.Service.Services
         public async Task<List<Movie>> GetMovieListForRate(int input)
         {
             var movies = Where(x => x.vote_count.Equals(input)).ToList();
+
             return movies;
         }
 
