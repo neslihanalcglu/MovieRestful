@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieRestful.Core.Dtos;
@@ -7,6 +8,7 @@ using MovieRestful.Core.Services;
 
 namespace MovieRestful.API.Controllers
 {
+    
     public class MovieController : CustomBaseController
     {
         private readonly IMapper _mapper;

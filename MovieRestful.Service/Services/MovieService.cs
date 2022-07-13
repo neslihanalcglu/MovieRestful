@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Drawing.Diagrams;
 using IEnumerable.ForEach;
+using Microsoft.AspNetCore.Authorization;
 using MovieRestful.Core.Models;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace MovieRestful.Service.Services
 {
+    [Authorize]
     public class MovieService : Service<Movie>, IMovieService
     {
         private readonly IMovieRepository _movieRepository;
