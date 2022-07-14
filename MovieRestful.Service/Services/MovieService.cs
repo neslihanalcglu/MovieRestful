@@ -136,24 +136,6 @@ namespace MovieRestful.Service.Services
             return movies;
         }
 
-        public async Task<List<string>> ListGenres()
-        {
-            var movies = await GetAllAsync();
-            var genres = new List<string>();
-
-            movies.ForEach(x => { genres.Add(x.genres); });
-            return genres;
-        }
-
-        public async Task<Movie> UpdateGenre(long id, string genreId, string genreName)
-        {
-            var movies = await GetByIdAsync(id);
-            var newGenres = "[{'id':" + genreId + ",'name':" + genreName + "}]";
-            movies.genres = newGenres;
-            await UpdateAsync(movies);
-            return movies;
-        }
-
         
         public async Task<List<Movie>> GetAllMoviesUsingRedisCache()
         {
@@ -178,5 +160,6 @@ namespace MovieRestful.Service.Services
             }
             return movieList;
         }
+
     }
 }

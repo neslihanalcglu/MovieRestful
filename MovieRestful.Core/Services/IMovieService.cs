@@ -14,11 +14,8 @@ namespace MovieRestful.Core.Services
         Task<List<Movie>> GetMovieListForRate(int input, int maxResultCount);
         Task<List<Movie>> GetMovieListForReleaseDate(string input, int maxResultCount);
         Task<List<Movie>> Search(string? title, int? rate, string? year);
-        Task<List<string>> ListGenres();
 
-        Task<Movie> UpdateGenre(long id, string genreId, string genreName);
-
-        Task<List<Movie>> GetAllMoviesUsingRedisCache()
+        Task<List<Movie>> GetAllMoviesUsingRedisCache();
     }
 
     

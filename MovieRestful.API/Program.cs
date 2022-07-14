@@ -39,6 +39,7 @@ builder.Services.AddScoped(typeof(IMovieRepository), typeof(MovieRepository));
 // Services Implement
 builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
 builder.Services.AddScoped(typeof(IMovieService), typeof(MovieService));
+builder.Services.AddScoped(typeof(ITrendingService), typeof(TrendingService));
 
 // AutoMapper Implement
 builder.Services.AddAutoMapper(typeof(MapProfile));
@@ -65,8 +66,8 @@ builder.Services.AddHangfire(config =>
 //Hangfire.RecurringJob.AddOrUpdate(() => Console.WriteLine("Recurring jobs tetiklendi!"), Hangfire.Cron.MinuteInterval(1));
 
 
-
-//builder.Services.AddHostedService<MovieBGService>();
+// Hosted Service implement
+builder.Services.AddHostedService<MovieBGService>();
 
 //swagger yapýlandýrmasý
 var securityScheme = new OpenApiSecurityScheme()

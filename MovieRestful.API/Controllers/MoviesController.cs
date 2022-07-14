@@ -110,5 +110,6 @@ namespace MovieRestful.API.Controllers
             var movieDtos = _mapper.Map<List<MovieDto>>(movies);
             return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
         }
+
     }
 }

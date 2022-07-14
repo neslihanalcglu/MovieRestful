@@ -1,16 +1,11 @@
 ﻿using MovieRestful.Core.Services;
+using MovieRestful.Repository;
 
 namespace MovieRestful.API.BackgroundServices
 {
     public class MovieBGService : IHostedService, IDisposable
     {
         private Timer timer;
-        private readonly IMovieService _movieService;
-
-        public MovieBGService(IMovieService movieService)
-        {
-            _movieService = movieService;
-        }
 
         public void Dispose()
         {
@@ -19,21 +14,21 @@ namespace MovieRestful.API.BackgroundServices
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            Console.WriteLine($"{nameof(GetMovieList)} Service stared....");
+            Console.WriteLine($"{nameof(GetMovieList)} Service started....");
 
 
-            timer = new Timer(GetMovieList, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+            //timer = new Timer(GetMovieList, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
 
             return Task.CompletedTask;
         }
 
         private void GetMovieList(object state)
         {
-            _movieService.GetAllAsync();
+            //_movieService.GetAllAsync();
         }
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            timer?.Change(Timeout.Infinite, 0);
+            //timer?.Change(Timeout.Infinite, 0);
 
             Console.WriteLine($"{nameof(GetMovieList)} Service stopped....");
 
