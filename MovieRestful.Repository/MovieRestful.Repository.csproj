@@ -30,8 +30,4 @@
     <ProjectReference Include="..\MovieRestful.Core\MovieRestful.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
 </Project>

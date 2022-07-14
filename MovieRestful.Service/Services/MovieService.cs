@@ -18,12 +18,8 @@ namespace MovieRestful.Service.Services
     [Authorize]
     public class MovieService : Service<Movie>, IMovieService
     {
-        private readonly IMovieRepository _movieRepository;
-        private readonly IRedisHelper _redisHelper;
-        public MovieService(IGenericRepository<Movie> repository, DatabaseContext context, IUnitOfWork unitOfWork, IMovieRepository movieRepository, IRedisHelper redisHelper) : base(repository, context, unitOfWork)
+        public MovieService(IGenericRepository<Movie> repository, IUnitOfWork unitOfWork) : base(repository, unitOfWork)
         {
-            _movieRepository = movieRepository;
-            _redisHelper = redisHelper;
         }
 
         public async Task<Movie> GetMovieAsync(long id)

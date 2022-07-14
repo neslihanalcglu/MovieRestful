@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace MovieRestful.Core.Models
 {
-    public class Movie
+    public class Movie: BaseEntity
     {
-        public long id { get; set; }
         public string? overview { get; set; }
         public DateTime? release_date { get; set; }
         public string? genres { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MovieRestful.Core.Dtos;
 using MovieRestful.Core.Models;
 using MovieRestful.Core.Services;
+using MovieRestful.Service.Redis;
 
 namespace MovieRestful.API.Controllers
 {
@@ -13,11 +14,12 @@ namespace MovieRestful.API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IMovieService _movieService;
-
-        public MoviesController(IMapper mapper, IMovieService movieService)
+        private readonly IRedisHelper _redisHelper;
+        public MoviesController(IMapper mapper, IMovieService movieService, IRedisHelper redisHelper)
         {
             _mapper = mapper;
             _movieService = movieService;
+            _redisHelper = redisHelper;
         }
 
         [HttpGet]
@@ -34,7 +36,7 @@ namespace MovieRestful.API.Controllers
         public async Task<ActionResult> GetMovieDetail(long id)
         {
             var movie = await _movieService.GetMovieAsync(id);
-
+            var movieId = await _redisHelper.GetKeyAsync("movieId");
             var movieDto = _mapper.Map<MovieDto>(movie);
             return Ok(CustomResponseDto<MovieDto>.Success(200, movieDto));
         }
@@ -43,7 +45,7 @@ namespace MovieRestful.API.Controllers
         public async Task<ActionResult> CreateAsync(MovieDto input)
         {
             var movie = await _movieService.AddAsync(_mapper.Map<Movie>(input));
-
+            await _redisHelper.SetKeyAsync("movieId", movie.id.ToString());
             var movieDto = _mapper.Map<MovieDto>(movie);
             return Ok(CustomResponseDto<MovieDto>.Success(201, movieDto));// 201-Created
         }

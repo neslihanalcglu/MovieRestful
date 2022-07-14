@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieRestful.Core.Models;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
 using MovieRestful.Repository;
 using MovieRestful.Service.Exceptions;
+using MovieRestful.Service.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,13 +19,12 @@ namespace MovieRestful.Service.Services
     {
         private readonly IGenericRepository<T> _repository;
         private readonly IUnitOfWork _unitOfWork;
-        public Service(IGenericRepository<T> repository, DatabaseContext context, IUnitOfWork unitOfWork)
+
+        public Service(IGenericRepository<T> repository, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
         }
-
-
 
         public async Task<T> AddAsync(T entity)
         {
