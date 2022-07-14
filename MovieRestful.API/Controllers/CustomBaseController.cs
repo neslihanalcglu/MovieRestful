@@ -5,7 +5,7 @@ using MovieRestful.Core.Dtos;
 
 namespace MovieRestful.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomBaseController : ControllerBase

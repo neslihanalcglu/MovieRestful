@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MovieRestful.Core.Dtos;
 using MovieRestful.Core.Models;
 using MovieRestful.Core.Services;
 using MovieRestful.Service.Redis;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace MovieRestful.API.Controllers
 {
@@ -62,7 +65,7 @@ namespace MovieRestful.API.Controllers
         {
             var movie = await _movieService.GetByIdAsync(id);
             await _movieService.RemoveAsync(movie);
-
+            var movieId = await _redisHelper.GetKeyAsync("movieId");
             return Ok(CustomResponseDto<NoContentDto>.Success(204));
         }
 
@@ -94,6 +97,16 @@ namespace MovieRestful.API.Controllers
         public async Task<ActionResult> Search(string? title, int? rate, string? year)
         {
             var movies = await _movieService.Search(title,rate,year);
+            var movieDtos = _mapper.Map<List<MovieDto>>(movies);
+            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+        }
+
+
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllMoviesUsingRedisCache()
+        {
+            var movies = await _movieService.GetAllMoviesUsingRedisCache();
+
             var movieDtos = _mapper.Map<List<MovieDto>>(movies);
             return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
         }

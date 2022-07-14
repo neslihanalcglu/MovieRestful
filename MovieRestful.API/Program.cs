@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MovieRestful.API.BackgroundServices;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
@@ -56,12 +57,16 @@ builder.Services.AddDbContext<DatabaseContext>(x =>
 
 // Redis Implement
 builder.Services.AddSingleton<IRedisHelper, RedisHelper>();
+builder.Services.AddDistributedMemoryCache();
 
 builder.Services.AddHangfire(config =>
                 config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")));
 
 //Hangfire.RecurringJob.AddOrUpdate(() => Console.WriteLine("Recurring jobs tetiklendi!"), Hangfire.Cron.MinuteInterval(1));
 
+
+
+//builder.Services.AddHostedService<MovieBGService>();
 
 //swagger yapýlandýrmasý
 var securityScheme = new OpenApiSecurityScheme()

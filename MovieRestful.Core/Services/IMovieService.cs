@@ -17,6 +17,8 @@ namespace MovieRestful.Core.Services
         Task<List<string>> ListGenres();
 
         Task<Movie> UpdateGenre(long id, string genreId, string genreName);
+
+        Task<List<Movie>> GetAllMoviesUsingRedisCache()
     }
 
     
