@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using MovieRestful.Caching;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
@@ -33,6 +34,8 @@ namespace MovieRestful.API.Modules
 
             builder.RegisterAssemblyTypes(apiAssembly, repoAssembly, serviceAssembly).Where(x => x.Name.EndsWith("Service"))
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            //builder.RegisterType<MovieServiceWithCaching>();
         }
     }
 }

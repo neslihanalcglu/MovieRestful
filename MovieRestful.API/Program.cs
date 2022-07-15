@@ -66,6 +66,7 @@ builder.Services.AddDbContext<DatabaseContext>(x =>
 // Redis Implement
 builder.Services.AddSingleton<IRedisHelper, RedisHelper>();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddHangfire(config =>
                 config.UsePostgreSqlStorage(builder.Configuration.GetConnectionString("HangfireConnection")));

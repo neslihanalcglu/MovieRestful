@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieRestful.Repository", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieRestful.Service", "MovieRestful.Service\MovieRestful.Service.csproj", "{041E8AB4-9431-4CC3-A223-7117AB6935B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRestful.API", "MovieRestful.API\MovieRestful.API.csproj", "{B7245B0A-51F9-476B-9124-A4CCA429716B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieRestful.API", "MovieRestful.API\MovieRestful.API.csproj", "{B7245B0A-51F9-476B-9124-A4CCA429716B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieRestful.Caching", "MovieRestful.Caching\MovieRestful.Caching.csproj", "{F140E626-76C5-48DB-87B9-D6BFFAA23D99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B7245B0A-51F9-476B-9124-A4CCA429716B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7245B0A-51F9-476B-9124-A4CCA429716B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7245B0A-51F9-476B-9124-A4CCA429716B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F140E626-76C5-48DB-87B9-D6BFFAA23D99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F140E626-76C5-48DB-87B9-D6BFFAA23D99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F140E626-76C5-48DB-87B9-D6BFFAA23D99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F140E626-76C5-48DB-87B9-D6BFFAA23D99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

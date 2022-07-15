@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
 using MovieRestful.Core.Dtos;
 using MovieRestful.Core.Models;
+using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Service.Redis;
 using Newtonsoft.Json;
@@ -18,11 +20,13 @@ namespace MovieRestful.API.Controllers
         private readonly IMapper _mapper;
         private readonly IMovieService _movieService;
         private readonly IRedisHelper _redisHelper;
+
         public MoviesController(IMapper mapper, IMovieService movieService, IRedisHelper redisHelper)
         {
             _mapper = mapper;
             _movieService = movieService;
             _redisHelper = redisHelper;
+            
         }
 
         [HttpGet]

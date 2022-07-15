@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.EntityFrameworkCore.Storage;
+using MovieRestful.Core.Models;
 using StackExchange.Redis;
 
 namespace MovieRestful.Service.Redis
@@ -21,6 +22,12 @@ namespace MovieRestful.Service.Redis
             var database = await GetRedisDatabase();
 
             return await database.StringSetAsync(key, value);
+        }
+
+        public async Task<bool> SetKeyAsync(string cacheMovieKey, List<Movie> movies)
+        {
+            var database = await GetRedisDatabase();
+            return await database.StringSetAsync(cacheMovieKey, movies.ToString());
         }
 
         private async Task<StackExchange.Redis.IDatabase> GetRedisDatabase()

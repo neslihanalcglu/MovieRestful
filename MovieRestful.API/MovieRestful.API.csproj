@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieRestful.Service\MovieRestful.Service.csproj" />
+    <ProjectReference Include="..\MovieRestful.Caching\MovieRestful.Caching.csproj" />
   </ItemGroup>
 
 </Project>
