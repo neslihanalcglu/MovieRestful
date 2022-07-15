@@ -18,21 +18,21 @@ namespace MovieRestful.API.Controllers
         }
 
         [HttpGet("list-most-viewed-movies")]
-        public async Task<ActionResult> ListMostViewedMovies()
+        public async Task<IActionResult> ListMostViewedMovies()
         {
             var movies = await _trendingService.ListMostViewedMovies();
 
             var movieDtos = _mapper.Map<List<MovieDto>>(movies);
-            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+            return CreateActionResult(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
         }
 
         [HttpGet("list-top-rated-movies")]
-        public async Task<ActionResult> ListTopRatedMovies()
+        public async Task<IActionResult> ListTopRatedMovies()
         {
             var movies = await _trendingService.ListTopRatedMovies();
 
             var movieDtos = _mapper.Map<List<MovieDto>>(movies);
-            return Ok(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
+            return CreateActionResult(CustomResponseDto<List<MovieDto>>.Success(200, movieDtos));
         }
 
 

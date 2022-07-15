@@ -5,8 +5,14 @@ namespace MovieRestful.API.BackgroundServices
 {
     public class MovieBGService : IHostedService, IDisposable
     {
+        private readonly ILogger<MovieBGService> _logger;
+        private readonly DatabaseContext _context=null;
         private Timer timer;
 
+        public MovieBGService(ILogger<MovieBGService> logger)
+        {
+            _logger = logger;
+        }
         public void Dispose()
         {
             timer = null;
@@ -26,6 +32,7 @@ namespace MovieRestful.API.BackgroundServices
         {
             //_movieService.GetAllAsync();
         }
+
         public Task StopAsync(CancellationToken cancellationToken)
         {
             //timer?.Change(Timeout.Infinite, 0);

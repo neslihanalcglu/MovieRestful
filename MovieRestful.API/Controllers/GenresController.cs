@@ -18,19 +18,19 @@ namespace MovieRestful.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> ListGenres()
+        public async Task<IActionResult> ListGenres()
         {
             var genres = await _genresService.ListGenres();
-            return Ok(CustomResponseDto<List<string>>.Success(200, genres));
+            return CreateActionResult(CustomResponseDto<List<string>>.Success(200, genres));
         }
 
         [HttpPatch("{id}")]
-        public async Task<ActionResult> UpdateGenre(long id, string genreId, string genreName)
+        public async Task<IActionResult> UpdateGenre(long id, string genreId, string genreName)
         {
             var movie = await _genresService.UpdateGenre(id, genreId, genreName);
 
             var movieDto = _mapper.Map<MovieDto>(movie);
-            return Ok(CustomResponseDto<MovieDto>.Success(200, movieDto));
+            return CreateActionResult(CustomResponseDto<MovieDto>.Success(200, movieDto));
         }
 
     }

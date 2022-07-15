@@ -1,11 +1,15 @@
+using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieRestful.API.BackgroundServices;
+using MovieRestful.API.Filters;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
@@ -15,6 +19,7 @@ using MovieRestful.Repository.UnitOfWorks;
 using MovieRestful.Service.Mapping;
 using MovieRestful.Service.Redis;
 using MovieRestful.Service.Services;
+using MovieRestful.Service.Validations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using System.Security.Claims;
@@ -24,7 +29,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options=> options.Filters.Add(new ValidateFilterAttribute())) // tüm controllerlara filter uygulanacak
+    .AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<MovieDtoValidator>()); // validasyonu projeye dahil ettik
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true; // Framework ün kendi filtresini inaktif duruma getirdik ki yukarýda eklenen filtre çalýþsýn
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
