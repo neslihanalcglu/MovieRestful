@@ -23,10 +23,16 @@ namespace MovieRestful.API.BackgroundServices
             Console.WriteLine($"{nameof(GetMovieList)} Service started....");
 
 
-            //timer = new Timer(GetMovieList, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
+            timer = new Timer(writeDateTimeOnLog, null, TimeSpan.Zero, TimeSpan.FromSeconds(1));
 
             return Task.CompletedTask;
         }
+
+        private void writeDateTimeOnLog(object state)
+        {
+            Console.WriteLine($"DateTime is {DateTime.Now.ToLongTimeString()}");
+        }
+
 
         private void GetMovieList(object state)
         {
@@ -35,7 +41,7 @@ namespace MovieRestful.API.BackgroundServices
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            //timer?.Change(Timeout.Infinite, 0);
+            timer?.Change(Timeout.Infinite, 0);
 
             Console.WriteLine($"{nameof(GetMovieList)} Service stopped....");
 

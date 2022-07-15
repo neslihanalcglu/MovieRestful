@@ -1,3 +1,5 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Hangfire.PostgreSql;
@@ -11,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using MovieRestful.API.BackgroundServices;
 using MovieRestful.API.Filters;
 using MovieRestful.API.Middlewares;
+using MovieRestful.API.Modules;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
@@ -42,20 +45,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// UnitOfWork Implement
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-// Repositories Implement
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped(typeof(IMovieRepository), typeof(MovieRepository));
-
-// Services Implement
-builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
-builder.Services.AddScoped(typeof(IMovieService), typeof(MovieService));
-builder.Services.AddScoped(typeof(ITrendingService), typeof(TrendingService));
-
 // AutoMapper Implement
 builder.Services.AddAutoMapper(typeof(MapProfile));
+
+builder.Services.AddScoped(typeof(NotFoundFilter<>));
+builder.Services.AddScoped(typeof(NotFoundFilter<>));
 
 // Database Implement
 builder.Services.AddDbContext<DatabaseContext>(x =>
@@ -165,7 +159,11 @@ builder.Services.AddAuthentication(o =>
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 
-
+// Autofac implement
+builder.Host.UseServiceProviderFactory
+    (new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => 
+    containerBuilder.RegisterModule(new RepoServiceModule()));
 
 var app = builder.Build();
 

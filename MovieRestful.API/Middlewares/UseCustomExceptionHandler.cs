@@ -11,7 +11,6 @@ namespace MovieRestful.API.Middlewares
         {
             app.UseExceptionHandler(config => // bu modeli kullanarak kendi modelimizi yapıyoruz
             {
-
                 config.Run(async context => // sonlandırıcı middleware 
                 {                           // buraya geldikten sonra exception varsa daha ileri gitmeyecek
                     context.Response.ContentType = "application/json";
@@ -34,7 +33,6 @@ namespace MovieRestful.API.Middlewares
 
                 });
             });
-
         }
     }
 }
