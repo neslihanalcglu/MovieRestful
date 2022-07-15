@@ -7,6 +7,7 @@ using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
 using MovieRestful.Repository;
+using MovieRestful.Service.Exceptions;
 using MovieRestful.Service.Redis;
 using Newtonsoft.Json;
 using System;
@@ -32,6 +33,23 @@ namespace MovieRestful.Service.Services
             movie.ViewedMovieCount++;
             await UpdateAsync(movie);
             return movie;
+        }
+
+        protected async Task<string> GetOriginalTitleAsync(string title)
+        {
+            var movie = Where(x => x.original_title.Equals(title)).FirstOrDefault();
+            return movie.original_title;
+        }
+
+        public async Task<Movie> CreateMovieAsync(Movie input)
+        {
+            var IsTitle = await GetOriginalTitleAsync(input.original_title);
+            if (IsTitle != null)
+            {   // aynı isme sahip film kaydedilmek istenirse hata mesajı döndürecek
+                throw new ClientSideException($"{typeof(Movie).Name}({input.original_title}) already have");
+            }
+            await AddAsync(input);
+            return input;
         }
 
         public async Task<List<Movie>> GetMovieListForGenreAsync(string input, int maxResultCount)

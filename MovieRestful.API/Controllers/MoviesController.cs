@@ -55,7 +55,7 @@ namespace MovieRestful.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateAsync(MovieDto input)
         {
-            var movie = await _movieService.AddAsync(_mapper.Map<Movie>(input));
+            var movie = await _movieService.CreateMovieAsync(_mapper.Map<Movie>(input));
             await _redisHelper.SetKeyAsync("movieId", movie.id.ToString());
             var movieDto = _mapper.Map<MovieDto>(movie);
             return CreateActionResult(CustomResponseDto<MovieDto>.Success(201, movieDto)); // 201-Created

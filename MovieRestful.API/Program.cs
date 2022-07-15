@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieRestful.API.BackgroundServices;
 using MovieRestful.API.Filters;
+using MovieRestful.API.Middlewares;
 using MovieRestful.Core.Repositories;
 using MovieRestful.Core.Services;
 using MovieRestful.Core.UnitOfWorks;
@@ -224,11 +225,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.UseHttpsRedirection();
 
+app.UseCustomException(); // kendi yazdýðýmýz middleware i aktif ettik
+
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

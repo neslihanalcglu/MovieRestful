@@ -19,7 +19,7 @@ namespace MovieRestful.Core.Models
         public string? belongs_to_collection { get; set; }
         public string? homepage { get; set; }
         public string? original_language { get; set; }
-        public string? original_title { get; set; }
+        public string original_title { get; set; }
         public string? poster_path { get; set; }
         public string? production_companies { get; set; }
         public string? production_countries { get; set; }
